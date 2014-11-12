@@ -83,7 +83,7 @@ module MiniTest
         padding   = report.size.to_s.length + BASE_OFFSET
         report.each_with_index do |error, index|
           lines = error.split("\n")
-          first_line = red { lines.shift(2).join(" ") }
+          first_line = (red { lines.shift }) + " " + lines.shift
           puts "\n%#{padding}d) %s" % [index + 1, first_line]
           lines.each do |line|
             puts (" " * (padding+5)) + line
