@@ -21,5 +21,16 @@ module MiniTestReportersTest
     def test_long_method_name
       skip
     end
+
+    describe 'top describe block' do
+      it 'fails' do
+        assert false
+      end
+      describe 'nested describe block' do
+        it 'also fails' do
+          raise "Yet another exception"
+        end
+      end
+    end
   end
 end

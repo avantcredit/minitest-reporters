@@ -25,6 +25,7 @@ module MiniTest
       def after_suites(suites, type)
         total_time = Time.now - runner.suites_start_time
 
+        print_error_summary
         puts('Finished in %.5fs' % total_time)
         print('%d tests, %d assertions, ' % [runner.test_count, runner.assertion_count])
         print(red { '%d failures, %d errors, ' } % [runner.failures, runner.errors])
@@ -69,6 +70,25 @@ module MiniTest
         print_time(test)
         puts
         print_info(test_runner.exception)
+        puts
+      end
+
+      protected
+
+      BASE_OFFSET = 2
+
+      # Prints an error summary at the end of the test suite, excluding skipped tests.
+      def print_error_summary
+        report = runner.report
+        padding   = report.size.to_s.length + BASE_OFFSET
+        report.each_with_index do |error, index|
+          lines = error.split("\n")
+          first_line = red { lines.shift(2).join(" ") }
+          puts "\n%#{padding}d) %s" % [index + 1, first_line]
+          lines.each do |line|
+            puts (" " * (padding+5)) + line
+          end
+        end
         puts
       end
 
